@@ -92,35 +92,52 @@ export default function App() {
 
  // Función de traducción con IA Gemini
  // Función de traducción con IA Gemini
+  // Función de traducción optimizada (Diccionario local + Caché + IA Gemini)
   const handleTranslate = async () => {
-    if (!inputPhrase.trim()) return;
+    const cleanInput = inputPhrase.trim().toLowerCase();
+    if (!cleanInput) return;
     setIsLoading(true);
 
+    // 1. Verificación instantánea en el diccionario local / memoria
+    const matchLocal = dictionary.find(
+      item => item.espanol.toLowerCase() === cleanInput || item.mapudungun.toLowerCase() === cleanInput
+    );
+
+    if (matchLocal) {
+      setTranslationResult({
+        mapudungun: matchLocal.mapudungun,
+        pronunciacion: matchLocal.pronunciacion,
+        desglose: `Traducción instantánea (Diccionario Local) — ${matchLocal.ejemplo}`
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    // 2. Si no está local, consulta a Gemini 3.8 Flash
     const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
 
     if (!apiKey) {
       setTranslationResult({
         mapudungun: 'Falta la clave de API',
         pronunciacion: 'Configura VITE_GEMINI_API_KEY en Vercel',
-        desglose: 'Revisa las Variables de Entorno en el panel de Vercel.'
+        desglose: 'Revisa las variables de entorno.'
       });
       setIsLoading(false);
       return;
     }
 
     const prompt = `Eres un lingüista experto en el idioma Mapudungun (Mapuche). 
-Traduce la siguiente frase del español al Mapudungun de manera precisa.
-Frase a traducir: "${inputPhrase}"
+Traduce brevemente del español al Mapudungun la siguiente frase: "${cleanInput}"
 
-Responde ÚNICAMENTE en formato JSON estricto sin bloques de código ni texto adicional alrededor:
+Responde ÚNICAMENTE en JSON estricto:
 {
-  "mapudungun": "Traducción completa en mapudungun",
+  "mapudungun": "Traducción en mapudungun",
   "pronunciacion": "Guía fonética simplificada",
-  "desglose": "Explicación breve del significado palabra por palabra"
+  "desglose": "Explicación breve"
 }`;
 
     try {
-     const response = await fetch(
+      const response = await fetch(
         `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`,
         {
           method: 'POST',
@@ -130,6 +147,41 @@ Responde ÚNICAMENTE en formato JSON estricto sin bloques de código ni texto ad
           })
         }
       );
+
+      if (!response.ok) {
+        throw new Error('Error en la respuesta de la API');
+      }
+
+      const data = await response.json();
+      const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+      const cleanJson = rawText.replace(/```json/gi, '').replace(/```/g, '').trim();
+      const parsed = JSON.parse(cleanJson);
+
+      setTranslationResult(parsed);
+
+      // Guardar automáticamente en el diccionario para que la próxima vez sea instantáneo
+      const autoEntry: DictionaryEntry = {
+        id: Date.now().toString(),
+        espanol: inputPhrase,
+        mapudungun: parsed.mapudungun,
+        pronunciacion: parsed.pronunciacion,
+        categoria: 'IA Traducido',
+        ejemplo: parsed.desglose
+      };
+
+      setDictionary(prev => [autoEntry, ...prev]);
+
+    } catch (error: any) {
+      console.error('Error traduciendo:', error);
+      setTranslationResult({
+        mapudungun: 'Error al traducir',
+        pronunciacion: 'Revisa tu conexión o vuelve a intentar',
+        desglose: 'No se pudo completar la solicitud.'
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
       if (!response.ok) {
         const errorData = await response.json();
