@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Volume2, Sparkles, BookOpen, Search, Plus, Trash2 } from 'lucide-react';
+import { Volume2, Sparkles, BookOpen, Search } from 'lucide-react';
 
 interface DictionaryEntry {
   id: string;
@@ -73,11 +73,11 @@ const DEFAULT_DICTIONARY: DictionaryEntry[] = [
 ];
 
 export default function App() {
-  // Fuerza a la app a usar el nuevo diccionario actualizado y limpiar el caché antiguo
   const [dictionary, setDictionary] = useState<DictionaryEntry[]>(() => {
-    localStorage.removeItem('mapudungun_dictionary'); // Limpia la lista antigua recortada
+    localStorage.clear(); // Limpia la memoria cache antigua del navegador
     return DEFAULT_DICTIONARY;
   });
+
   const [inputPhrase, setInputPhrase] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -92,7 +92,7 @@ export default function App() {
     if (!cleanInput) return;
     setIsLoading(true);
 
-    // Búsqueda instantánea local
+    // Búsqueda instantánea en el diccionario local
     const matchLocal = dictionary.find(
       item =>
         item.espanol.toLowerCase().trim() === cleanInput ||
@@ -122,7 +122,7 @@ export default function App() {
     }
 
     const prompt = `Eres un lingüista experto en el idioma Mapudungun (Mapuche). 
-Traduce brevemente del español al Mapudungun: "${cleanInput}"
+Traduce la siguiente frase del español al Mapudungun: "${cleanInput}"
 
 Responde ÚNICAMENTE en JSON estricto sin bloques de código:
 {
@@ -165,8 +165,8 @@ Responde ÚNICAMENTE en JSON estricto sin bloques de código:
     } catch (error) {
       setTranslationResult({
         mapudungun: 'Error al traducir',
-        pronunciacion: 'Revisa tu conexión a internet',
-        desglose: 'No se pudo conectar con el servidor.'
+        pronunciacion: 'Revisa tu conexión o la clave de API',
+        desglose: 'El servidor de IA está ocupado. Prueba con palabras del diccionario local.'
       });
     } finally {
       setIsLoading(false);
