@@ -216,12 +216,12 @@ export default function App() {
  // Función de traducción con IA Gemini
  // Función de traducción con IA Gemini
   // Función de traducción optimizada (Diccionario local + Caché + IA Gemini)
-  const handleTranslate = async () => {
+ const handleTranslate = async () => {
     const cleanInput = inputPhrase.trim().toLowerCase();
     if (!cleanInput) return;
     setIsLoading(true);
 
-    // 1. Verificación instantánea en el diccionario local / memoria
+    // 1. Búsqueda instantánea en el diccionario local
     const matchLocal = dictionary.find(
       item => item.espanol.toLowerCase() === cleanInput || item.mapudungun.toLowerCase() === cleanInput
     );
@@ -235,6 +235,82 @@ export default function App() {
       setIsLoading(false);
       return;
     }
+
+    // 2. Consulta a la API de Gemini 3.8 Flash
+    const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
+
+    if (!apiKey) {
+      setTranslationResult({
+        mapudungun: 'Falta la clave de API',
+        pronunciacion: 'Configura VITE_GEMINI_API_KEY en Vercel',
+        desglose: 'Revisa las variables de entorno.'
+      });
+      setIsLoading(false);
+      return;
+    }
+
+    const prompt = `Eres un lingüista experto en el idioma Mapudungun (Mapuche). 
+Traduce la siguiente frase del español al Mapudungun de manera precisa: "${cleanInput}"
+
+Responde ÚNICAMENTE en JSON estricto sin formato adicional:
+{
+  "mapudungun": "Traducción en mapudungun",
+  "pronunciacion": "Guía fonética simplificada",
+  "desglose": "Explicación breve del significado"
+}`;
+
+    try {
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }]
+          })
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Error en servidor (${response.status})`);
+      }
+
+      const data = await response.json();
+      const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+      const cleanJson = rawText.replace(/```json/gi, '').replace(/```/g, '').trim();
+      const parsed = JSON.parse(cleanJson);
+
+      setTranslationResult(parsed);
+
+      // Agregar automáticamente al estado para consultas futuras sin gastar API
+      const autoEntry: DictionaryEntry = {
+        id: Date.now().toString(),
+        espanol: inputPhrase,
+        mapudungun: parsed.mapudungun,
+        pronunciacion: parsed.pronunciacion,
+        categoria: 'IA Traducido',
+        ejemplo: parsed.desglose
+      };
+
+      setDictionary(prev => [autoEntry, ...prev]);
+
+    } catch (error: any) {
+      console.error('Error de red o traducción:', error);
+      
+      let mensajeError = 'Revisa tu conexión a internet o intenta de nuevo.';
+      if (error.name === 'TypeError' && error.message === 'Failed to fetch') {
+        mensajeError = 'Sin conexión a internet o la solicitud fue bloqueada por el navegador/navegación privada.';
+      }
+
+      setTranslationResult({
+        mapudungun: 'Error de Conexión',
+        pronunciacion: 'No se pudo conectar con el servidor',
+        desglose: mensajeError
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
     // 2. Si no está local, consulta a Gemini 3.8 Flash
     const apiKey = import.meta.env.VITE_GEMINI_API_KEY;
