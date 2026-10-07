@@ -91,6 +91,7 @@ export default function App() {
   };
 
  // Función de traducción con IA Gemini
+ // Función de traducción con IA Gemini
   const handleTranslate = async () => {
     if (!inputPhrase.trim()) return;
     setIsLoading(true);
@@ -100,8 +101,8 @@ export default function App() {
     if (!apiKey) {
       setTranslationResult({
         mapudungun: 'Falta la clave de API',
-        pronunciacion: 'Configura tu VITE_GEMINI_API_KEY en Vercel / .env',
-        desglose: 'Revisa las variables de entorno.'
+        pronunciacion: 'Configura VITE_GEMINI_API_KEY en Vercel',
+        desglose: 'Revisa las Variables de Entorno en el panel de Vercel.'
       });
       setIsLoading(false);
       return;
@@ -118,46 +119,41 @@ Responde ÚNICAMENTE en formato JSON estricto sin bloques de código ni texto ad
   "desglose": "Explicación breve del significado palabra por palabra"
 }`;
 
-    // Lista de modelos a intentar en orden en caso de saturación
-    const models = ['gemini-2.5-flash', 'gemini-1.5-flash-latest'];
-
-    for (const model of models) {
-      try {
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
+    try {
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+        {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             contents: [{ parts: [{ text: prompt }] }]
           })
-        });
-
-        if (!response.ok) {
-          const errorData = await response.json();
-          console.warn(`Error con el modelo ${model}:`, errorData);
-          continue; // Intenta con el siguiente modelo
         }
+      );
 
-        const data = await response.json();
-        const rawText = data.candidates[0].content.parts[0].text;
-        
-        const cleanJson = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
-        const parsed = JSON.parse(cleanJson);
-
-        setTranslationResult(parsed);
-        setIsLoading(false);
-        return; // Éxito, salir de la función
-      } catch (error: any) {
-        console.error(`Fallo al consultar ${model}:`, error);
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Error de API:', errorData);
+        throw new Error(errorData.error?.message || 'Error en la respuesta de la API');
       }
-    }
 
-    // Si fallan todos los intentos
-    setTranslationResult({
-      mapudungun: 'Servidores de Google ocupados',
-      pronunciacion: 'Intenta nuevamente en unos segundos',
-      desglose: 'Los modelos gratuitos de Gemini recibieron muchas peticiones simultáneas.'
-    });
-    setIsLoading(false);
+      const data = await response.json();
+      const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+      
+      const cleanJson = rawText.replace(/```json/gi, '').replace(/```/g, '').trim();
+      const parsed = JSON.parse(cleanJson);
+
+      setTranslationResult(parsed);
+    } catch (error: any) {
+      console.error('Error traduciendo:', error);
+      setTranslationResult({
+        mapudungun: 'Error al traducir',
+        pronunciacion: 'Revisa tu conexión o la clave de API',
+        desglose: error?.message || 'Ocurrió un error inesperado.'
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleAddWord = (e: React.FormEvent) => {
