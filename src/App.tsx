@@ -23,16 +23,139 @@ interface DictionaryEntry {
 }
 
 const DEFAULT_DICTIONARY: DictionaryEntry[] = [
-  { id: '1', espanol: 'Hola / Saludo general', mapudungun: 'Mari mari', pronunciacion: 'ma-ri ma-ri', categoria: 'Saludos', ejemplo: 'Mari mari peñi (Hola hermano)' },
-  { id: '2', espanol: '¿Cómo estás?', mapudungun: '¿Chumleiymi?', pronunciacion: 'chum-ley-mi', categoria: 'Saludos', ejemplo: '¿Chumleiymi am? (¿Cómo estás tú?)' },
-  { id: '3', espanol: 'Estoy bien', mapudungun: 'Kümelefun', pronunciacion: 'ku-me-le-fun', categoria: 'Saludos', ejemplo: 'Kümelefun, chaltumay (Estoy bien, gracias)' },
-  { id: '4', espanol: 'Muchas gracias', mapudungun: 'Chaltumay', pronunciacion: 'chal-tu-may', categoria: 'Expresiones', ejemplo: 'Chaltumay may (Muchas gracias)' },
-  { id: '5', espanol: 'Hermano / Amigo (entre hombres)', mapudungun: 'Peñi', pronunciacion: 'pe-ñi', categoria: 'Familia', ejemplo: 'Mari mari peñi' },
-  { id: '6', espanol: 'Hermano/a / Trato de respeto', mapudungun: 'Lamngen', pronunciacion: 'lam-ngen', categoria: 'Familia', ejemplo: 'Mari mari lamngen' },
-  { id: '7', espanol: 'Agua', mapudungun: 'Ko', pronunciacion: 'ko', categoria: 'Naturaleza', ejemplo: 'Küme ko (Agua buena/limpia)' },
-  { id: '8', espanol: 'Sol / Día', mapudungun: 'Antü', pronunciacion: 'an-tu', categoria: 'Naturaleza', ejemplo: 'Küme antü (Buen día)' },
-  { id: '9', espanol: 'Tierra / Territorio', mapudungun: 'Mapu', pronunciacion: 'ma-pu', categoria: 'Naturaleza', ejemplo: 'Wallmapu (Territorio ancestral)' },
-  { id: '10', espanol: 'Comida / Alimento', mapudungun: 'Iyaël', pronunciacion: 'i-ya-el', categoria: 'Alimentos', ejemplo: 'Küme iyaël (Comida rica)' }
+ const DEFAULT_DICTIONARY: DictionaryEntry[] = [
+  // --- LETRA A ---
+  { id: 'a1', espanol: 'Que conduce al lago', mapudungun: 'Acol', pronunciacion: 'a-col', categoria: 'Naturaleza', ejemplo: 'Acol ko (Agua que conduce al lago)' },
+  { id: 'a2', espanol: 'Lugar caliente', mapudungun: 'Achen Niyeu', pronunciacion: 'a-chen ni-yeu', categoria: 'Lugares', ejemplo: 'Achen Niyeu mapu (Lugar que estuvo caliente)' },
+  { id: 'a3', espanol: 'Finalizar / Terminar', mapudungun: 'Acun', pronunciacion: 'a-cun', categoria: 'Acciones', ejemplo: 'Acun dungu (Finalizar el asunto)' },
+  { id: 'a4', espanol: 'Volver / Regresar', mapudungun: 'Acutun', pronunciacion: 'a-cu-tun', categoria: 'Acciones', ejemplo: 'Acutun ruka meu (Volver a la casa)' },
+  { id: 'a5', espanol: 'Nueve', mapudungun: 'Aila', pronunciacion: 'ay-la', categoria: 'Números', ejemplo: 'Aila che (Nueve personas)' },
+  { id: 'a6', espanol: 'Agua sobre cascajo', mapudungun: 'Ailinco', pronunciacion: 'ay-lin-co', categoria: 'Naturaleza', ejemplo: 'Ailinco leufu (Río de agua sobre cascajo)' },
+  { id: 'a7', espanol: 'Piedra blanca', mapudungun: 'Alicura', pronunciacion: 'a-li-cu-ra', categoria: 'Naturaleza', ejemplo: 'Küme alicura (Buena piedra blanca)' },
+  { id: 'a8', espanol: 'Reflejo en el agua', mapudungun: 'Alumco', pronunciacion: 'a-lum-co', categoria: 'Naturaleza', ejemplo: 'Pen alumco (Ver el reflejo en el agua)' },
+  { id: 'a9', espanol: 'Reluciente en el fondo', mapudungun: 'Alumine', pronunciacion: 'a-lu-mi-ne', categoria: 'Naturaleza', ejemplo: 'Alumine ko (Agua reluciente en el fondo)' },
+  { id: 'a10', espanol: 'Agua del indio', mapudungun: 'Antuco', pronunciacion: 'an-tu-co', categoria: 'Naturaleza', ejemplo: 'Antuco leufu (Arroyo del indio)' },
+  { id: 'a11', espanol: 'Pumas alzados', mapudungun: 'Aucapan', pronunciacion: 'au-ca-pan', categoria: 'Animales', ejemplo: 'Aucapan mahuida (Montaña de pumas alzados)' },
+  { id: 'a12', espanol: 'Agua que resuena / Eco', mapudungun: 'Auquinco', pronunciacion: 'au-quin-co', categoria: 'Naturaleza', ejemplo: 'Allkütun auquinco (Escuchar el agua que resuena)' },
+
+  // --- LETRA B ---
+  { id: 'b1', espanol: 'Bandurria (ave)', mapudungun: 'Bandurria', pronunciacion: 'ban-du-rria', categoria: 'Animales', ejemplo: 'Müna bandurria (Muchas bandurrias)' },
+  { id: 'b2', espanol: 'Roca grande', mapudungun: 'Botacura', pronunciacion: 'bo-ta-cu-ra', categoria: 'Naturaleza', ejemplo: 'Füta botacura (Roca muy grande)' },
+  { id: 'b3', espanol: 'Bosque grande', mapudungun: 'Bucalemu', pronunciacion: 'bu-ca-le-mu', categoria: 'Naturaleza', ejemplo: 'Miapuln bucalemu meu (Caminar en el bosque grande)' },
+  { id: 'b4', espanol: 'Río de muchas corrientes', mapudungun: 'Buraleo', pronunciacion: 'bu-ra-leo', categoria: 'Naturaleza', ejemplo: 'Buraleo leufu (Río caudaloso)' },
+  { id: 'b5', espanol: 'Arroyo grande', mapudungun: 'Butaco', pronunciacion: 'bu-ta-co', categoria: 'Naturaleza', ejemplo: 'Küme butaco (Buen arroyo grande)' },
+  { id: 'b6', espanol: 'Corral grande', mapudungun: 'Butamalal', pronunciacion: 'bu-ta-ma-lal', categoria: 'Lugares', ejemplo: 'Butamalal meu (En el corral grande)' },
+  { id: 'b7', espanol: 'Pantano grande', mapudungun: 'Butamallin', pronunciacion: 'bu-ta-ma-llin', categoria: 'Naturaleza', ejemplo: 'Anümka butamallin (Planta del pantano grande)' },
+
+  // --- LETRA C ---
+  { id: 'c1', espanol: 'Molinillo de manzana', mapudungun: 'Caburga', pronunciacion: 'ca-bur-ga', categoria: 'Objetos', ejemplo: 'Caburga pünon (Moler con caburga)' },
+  { id: 'c2', espanol: 'Adorno', mapudungun: 'Cacha', pronunciacion: 'ca-cha', categoria: 'Objetos', ejemplo: 'Küme cacha (Buen adorno)' },
+  { id: 'c3', espanol: 'Fiesta / Reunión', mapudungun: 'Cahuin', pronunciacion: 'ca-huin', categoria: 'Cultura', ejemplo: 'Kümeke cahuin (Buena reunión)' },
+  { id: 'c4', espanol: 'Lago como mar', mapudungun: 'Calafquen', pronunciacion: 'ca-laf-quen', categoria: 'Naturaleza', ejemplo: 'Füta calafquen (Gran lago como mar)' },
+  { id: 'c5', espanol: 'Agua azul', mapudungun: 'Calbuco', pronunciacion: 'cal-bu-co', categoria: 'Naturaleza', ejemplo: 'Calbuco ko (Agua azul)' },
+  { id: 'c6', espanol: 'Azul', mapudungun: 'Calfu', pronunciacion: 'cal-fu', categoria: 'Colores', ejemplo: 'Calfu wenu (Cielo azul)' },
+  { id: 'c7', espanol: 'Aguilucho azul', mapudungun: 'Calfun', pronunciacion: 'cal-fun', categoria: 'Animales', ejemplo: 'Mülen calfun (Hay un aguilucho azul)' },
+  { id: 'c8', espanol: 'Puma azul', mapudungun: 'Calfupan', pronunciacion: 'cal-fu-pan', categoria: 'Animales', ejemplo: 'Calfupan mahuida (Cerro del puma azul)' },
+  { id: 'c9', espanol: 'Águila grande', mapudungun: 'Calquin', pronunciacion: 'cal-quin', categoria: 'Animales', ejemplo: 'Üñüm calquin (Ave águila grande)' },
+  { id: 'c10', espanol: 'Asar', mapudungun: 'Cangcatun', pronunciacion: 'cang-ca-tun', categoria: 'Acciones', ejemplo: 'Cangcatun ilo (Asar carne)' },
+  { id: 'c11', espanol: 'Lugar verde', mapudungun: 'Carelhue', pronunciacion: 'ca-rel-hue', categoria: 'Lugares', ejemplo: 'Mülen carelhue meu (Estar en lugar verde)' },
+  { id: 'c12', espanol: 'Lago verde', mapudungun: 'Carilafquen', pronunciacion: 'ca-ri-laf-quen', categoria: 'Naturaleza', ejemplo: 'Carilafquen ko (Agua del lago verde)' },
+  { id: 'c13', espanol: 'Río verde', mapudungun: 'Carileufu', pronunciacion: 'ca-ri-leu-fu', categoria: 'Naturaleza', ejemplo: 'Pichi carileufu (Pequeño río verde)' },
+  { id: 'c14', espanol: 'Piedra pulida dura', mapudungun: 'Caupolican', pronunciacion: 'cau-po-li-can', categoria: 'Cultura', ejemplo: 'Caupolican kura (Piedra dura pulida)' },
+  { id: 'c15', espanol: 'Lugar de reunión', mapudungun: 'Caviahue', pronunciacion: 'ca-via-hue', categoria: 'Cultura', ejemplo: 'Caviahue meu (En el lugar de reunión)' },
+  { id: 'c16', espanol: 'Seis', mapudungun: 'Cayu', pronunciacion: 'ca-yu', categoria: 'Números', ejemplo: 'Cayu che (Seis personas)' },
+  { id: 'c17', espanol: 'Agua / Arroyo', mapudungun: 'Co', pronunciacion: 'co', categoria: 'Naturaleza', ejemplo: 'Pütun co (Beber agua)' },
+  { id: 'c18', espanol: 'Nutria salvaje', mapudungun: 'Coipo', pronunciacion: 'coy-po', categoria: 'Animales', ejemplo: 'Coipo leufu (Nutria del río)' },
+  { id: 'c19', espanol: 'Color pardo / Moreno', mapudungun: 'Coli', pronunciacion: 'co-li', categoria: 'Colores', ejemplo: 'Coli achawall (Gallina parda)' },
+  { id: 'c20', espanol: 'Gato montés', mapudungun: 'Colo Colo', pronunciacion: 'co-lo co-lo', categoria: 'Animales', ejemplo: 'Colo colo mahuida (Gato montés de montaña)' },
+  { id: 'c21', espanol: 'Agua colorada', mapudungun: 'Collico', pronunciacion: 'co-lli-co', categoria: 'Naturaleza', ejemplo: 'Collico ko (Agua rojiza)' },
+  { id: 'c22', espanol: 'Máscara de piedra', mapudungun: 'Colloncura', pronunciacion: 'co-llon-cu-ra', categoria: 'Cultura', ejemplo: 'Colloncura kura (Máscara de piedra)' },
+  { id: 'c23', espanol: 'Lugar de azufre', mapudungun: 'Copahue', pronunciacion: 'co-pa-hue', categoria: 'Naturaleza', ejemplo: 'Copahue mahuida (Volcán de azufre)' },
+  { id: 'c24', espanol: 'Flor nacional Mapuche', mapudungun: 'Copihue', pronunciacion: 'co-pi-hue', categoria: 'Naturaleza', ejemplo: 'Lig copihue (Copihue blanco)' },
+  { id: 'c25', espanol: 'Arena', mapudungun: 'Corel', pronunciacion: 'co-rel', categoria: 'Naturaleza', ejemplo: 'Corel lafquen (Arena de la playa)' },
+  { id: 'c26', espanol: 'Bueno / Rico', mapudungun: 'Cume', pronunciacion: 'cu-me', categoria: 'Expresiones', ejemplo: 'Cume iyaël (Buena comida)' },
+  { id: 'c27', espanol: 'Oscuro / Negro', mapudungun: 'Curi', pronunciacion: 'cu-ri', categoria: 'Colores', ejemplo: 'Curi kalshü (Lana negra)' },
+  { id: 'c28', espanol: 'Agua oscura', mapudungun: 'Curico', pronunciacion: 'cu-ri-co', categoria: 'Naturaleza', ejemplo: 'Curico leufu (Río de agua oscura)' },
+  { id: 'c29', espanol: 'Luna', mapudungun: 'Cuyen', pronunciacion: 'cu-yen', categoria: 'Naturaleza', ejemplo: 'Küme cuyen (Buena luna)' },
+
+  // --- LETRA CH ---
+  { id: 'ch1', espanol: 'Arbusto espinoso (Michai)', mapudungun: 'Chacai', pronunciacion: 'cha-cay', categoria: 'Naturaleza', ejemplo: 'Chacai anümka (Planta de chacai)' },
+  { id: 'ch2', espanol: 'Saludo de respeto', mapudungun: 'Chacha', pronunciacion: 'cha-cha', categoria: 'Saludos', ejemplo: 'Mari mari chacha (Hola respetado)' },
+  { id: 'ch3', espanol: 'Papito / Padre', mapudungun: 'Chachai', pronunciacion: 'cha-chay', categoria: 'Familia', ejemplo: 'Chachai, kümeleimi (Papito, ¿estás bien?)' },
+  { id: 'ch4', espanol: 'Sal', mapudungun: 'Chadi', pronunciacion: 'cha-di', categoria: 'Alimentos', ejemplo: 'Pütun chadi (Poner sal)' },
+  { id: 'ch5', espanol: 'Encargar / Entregar', mapudungun: 'Chalintecun', pronunciacion: 'cha-lin-te-cun', categoria: 'Acciones', ejemplo: 'Chalintecun dungu (Encargar un asunto)' },
+  { id: 'ch6', espanol: 'Aros / Zarcillos', mapudungun: 'Chamay', pronunciacion: 'cha-may', categoria: 'Objetos', ejemplo: 'Küme chamay (Buenos aros)' },
+  { id: 'ch7', espanol: 'Gente / Persona', mapudungun: 'Che', pronunciacion: 'che', categoria: 'General', ejemplo: 'Mapuche (Gente de la tierra)' },
+  { id: 'ch8', espanol: 'Avestruz / Choique', mapudungun: 'Choique', pronunciacion: 'choy-que', categoria: 'Animales', ejemplo: 'Choique purrun (Danza del avestruz)' },
+  { id: 'ch9', espanol: 'Escritura / Carta / Libro', mapudungun: 'Chillca', pronunciacion: 'chill-ca', categoria: 'Objetos', ejemplo: 'Chillcatun (Leer el libro)' },
+  { id: 'ch10', espanol: 'Sombrero', mapudungun: 'Chumpiru', pronunciacion: 'chum-pi-ru', categoria: 'Objetos', ejemplo: 'Tukun chumpiru (Ponerse el sombrero)' },
+  { id: 'ch11', espanol: 'Robar', mapudungun: 'Chuquin', pronunciacion: 'chu-quin', categoria: 'Acciones', ejemplo: 'Chuquin kelü (Robar algo)' },
+  { id: 'ch12', espanol: 'Frío', mapudungun: 'Chuy chuy', pronunciacion: 'chuy chuy', categoria: 'Expresiones', ejemplo: 'Chuy chuy feley (Hace mucho frío)' },
+
+  // --- LETRA D ---
+  { id: 'd1', espanol: 'Noticia / Asunto', mapudungun: 'Dengo', pronunciacion: 'den-go', categoria: 'General', ejemplo: 'Küme dengo (Buena noticia)' },
+  { id: 'd2', espanol: 'Agua clara', mapudungun: 'Diuco', pronunciacion: 'diu-co', categoria: 'Naturaleza', ejemplo: 'Pütun diuco (Beber agua clara)' },
+
+  // --- LETRA E ---
+  { id: 'e1', espanol: 'Tres', mapudungun: 'Ela', pronunciacion: 'e-la', categoria: 'Números', ejemplo: 'Ela che (Tres personas)' },
+  { id: 'e2', espanol: 'Cerco / Tapia', mapudungun: 'Elo', pronunciacion: 'e-lo', categoria: 'Lugares', ejemplo: 'Deuma elo (Hacer un cerco)' },
+  { id: 'e3', espanol: 'Regar', mapudungun: 'Elpicon', pronunciacion: 'el-pi-con', categoria: 'Acciones', ejemplo: 'Elpicon mapu (Regar la tierra)' },
+  { id: 'e4', espanol: 'Enterrar / Sepultar', mapudungun: 'Eltun', pronunciacion: 'el-tun', categoria: 'Acciones', ejemplo: 'Eltun kura (Enterrar la piedra)' },
+  { id: 'e5', espanol: 'Entregar / Ceder', mapudungun: 'Elun', pronunciacion: 'e-lun', categoria: 'Acciones', ejemplo: 'Elun ruka (Entregar la casa)' },
+  { id: 'e6', espanol: 'Ceniza', mapudungun: 'Entrequen', pronunciacion: 'en-tre-quen', categoria: 'Naturaleza', ejemplo: 'Kütral entrequen (Ceniza de fuego)' },
+  { id: 'e7', espanol: 'Dos', mapudungun: 'Epu', pronunciacion: 'e-pu', categoria: 'Números', ejemplo: 'Epu mari (Veinte / Dos dieces)' },
+
+  // --- LETRA F ---
+  { id: 'f1', espanol: 'Río grande', mapudungun: 'Futaleufu', pronunciacion: 'fu-ta-leu-fu', categoria: 'Naturaleza', ejemplo: 'Futaleufu leufu (Gran río caudaloso)' },
+  { id: 'f2', espanol: 'Lugar de humareda', mapudungun: 'Futrone', pronunciacion: 'fu-tro-ne', categoria: 'Lugares', ejemplo: 'Mülen futrone (Hay humareda)' },
+
+  // --- LETRA G ---
+  { id: 'f3', espanol: 'Muchacha joven / Doncella', mapudungun: 'Guaimallen', pronunciacion: 'gwai-ma-llen', categoria: 'Familia', ejemplo: 'Küme guaimallen (Buena muchacha)' },
+  { id: 'f4', espanol: 'Isla / Tierra aislada', mapudungun: 'Huapi', pronunciacion: 'hua-pi', categoria: 'Naturaleza', ejemplo: 'Pichi huapi (Isla pequeña)' },
+  { id: 'f5', espanol: 'Astuto', mapudungun: 'Gunei', pronunciacion: 'gu-ney', categoria: 'General', ejemplo: 'Gunei che (Persona astuta)' },
+  { id: 'f6', espanol: 'Zorro', mapudungun: 'Guru', pronunciacion: 'gu-ru', categoria: 'Animales', ejemplo: 'Guru leufu (Zorro del río)' },
+
+  // --- LETRA H ---
+  { id: 'h1', espanol: 'Vaca', mapudungun: 'Huaca', pronunciacion: 'hua-ca', categoria: 'Animales', ejemplo: 'Iyaël huaca (Comida de vaca)' },
+  { id: 'h2', espanol: 'Gente nueva / Jóvenes', mapudungun: 'Huechelu', pronunciacion: 'hue-che-lu', categoria: 'General', ejemplo: 'Küme huechelu (Buenos jóvenes)' },
+  { id: 'h3', espanol: 'Lugar para nadar', mapudungun: 'Huellelhue', pronunciacion: 'hue-llel-hue', categoria: 'Lugares', ejemplo: 'Amun huellelhue (Ir a nadar)' },
+  { id: 'h4', espanol: 'Ciervo andino / Huemul', mapudungun: 'Huemul', pronunciacion: 'hue-mul', categoria: 'Animales', ejemplo: 'Huemul mahuida (Huemul de la montaña)' },
+  { id: 'h5', espanol: 'Lo que está alto / Cielo', mapudungun: 'Huenu', pronunciacion: 'hue-nu', categoria: 'Naturaleza', ejemplo: 'Huenu mapu (Tierra de arriba / Cielo)' },
+  { id: 'h6', espanol: 'Arco iris', mapudungun: 'Huepil', pronunciacion: 'hue-pil', categoria: 'Naturaleza', ejemplo: 'Pen huepil (Ver el arco iris)' },
+  { id: 'h7', espanol: 'Gente del sur', mapudungun: 'Huiliches', pronunciacion: 'hui-li-ches', categoria: 'Cultura', ejemplo: 'Huiliches che (Personas del sur)' },
+  { id: 'h8', espanol: 'Extranjero / No mapuche', mapudungun: 'Huinca', pronunciacion: 'huin-ca', categoria: 'General', ejemplo: 'Huinca dungu (Idioma/asunto extranjero)' },
+
+  // --- LETRA I ---
+  { id: 'i1', espanol: 'Rodar', mapudungun: 'Imul', pronunciacion: 'i-mul', categoria: 'Acciones', ejemplo: 'Imul kura (Rodar la piedra)' },
+  { id: 'i2', espanol: 'Comer', mapudungun: 'In', pronunciacion: 'in', categoria: 'Acciones', ejemplo: 'In iyaël (Comer alimentos)' },
+
+  // --- LETRA K / L ---
+  { id: 'k1', espanol: 'Mar / Océano', mapudungun: 'Lafquen', pronunciacion: 'laf-quen', categoria: 'Naturaleza', ejemplo: 'Füta lafquen (Gran mar)' },
+  { id: 'k2', espanol: 'Agua medicinal', mapudungun: 'Lahuen co', pronunciacion: 'la-huen co', categoria: 'Naturaleza', ejemplo: 'Pütun lahuen co (Tomar agua medicinal)' },
+  { id: 'k3', espanol: 'Luz', mapudungun: 'Lihuen', pronunciacion: 'li-huen', categoria: 'Naturaleza', ejemplo: 'Küme lihuen (Buena luz / Amanecer)' },
+  { id: 'k4', espanol: 'Peñasco / Peña', mapudungun: 'Lil', pronunciacion: 'lil', categoria: 'Naturaleza', ejemplo: 'Füta lil (Peñasco grande)' },
+  { id: 'k5', espanol: 'Río claro', mapudungun: 'Limay', pronunciacion: 'li-may', categoria: 'Naturaleza', ejemplo: 'Limay leufu (Río de agua clara)' },
+  { id: 'k6', espanol: 'Piedra blanca y lisa', mapudungun: 'Liucura', pronunciacion: 'liu-cu-ra', categoria: 'Naturaleza', ejemplo: 'Liucura kura (Piedra blanca suave)' },
+  { id: 'k7', espanol: 'Cabeza / Cacique', mapudungun: 'Lonco', pronunciacion: 'lon-co', categoria: 'Cultura', ejemplo: 'Füta lonco (Gran líder)' },
+
+  // --- LETRA M ---
+  { id: 'm1', espanol: 'Curandera / Guía espiritual', mapudungun: 'Machi', pronunciacion: 'ma-chi', categoria: 'Cultura', ejemplo: 'Machi ngillatun (Rogativa de la machi)' },
+  { id: 'm2', espanol: 'Montaña / Cerro', mapudungun: 'Mahuida', pronunciacion: 'ma-hui-da', categoria: 'Naturaleza', ejemplo: 'Füta mahuida (Gran montaña)' },
+  { id: 'm3', espanol: 'Corral', mapudungun: 'Malal', pronunciacion: 'ma-lal', categoria: 'Lugares', ejemplo: 'Malal meu (En el corral)' },
+  { id: 'm4', espanol: 'Gente de esta tierra', mapudungun: 'Mapuche', pronunciacion: 'ma-pu-che', categoria: 'Cultura', ejemplo: 'Mapuche che (Persona mapuche)' },
+  { id: 'm5', espanol: 'Diez', mapudungun: 'Mari', pronunciacion: 'ma-ri', categoria: 'Números', ejemplo: 'Mari che (Diez personas)' },
+
+  // --- LETRA N / P ---
+  { id: 'n1', espanol: 'Jaguar / Puma', mapudungun: 'Nahuel', pronunciacion: 'na-huel', categoria: 'Animales', ejemplo: 'Nahuel mahuida (Cerro del jaguar)' },
+  { id: 'n2', espanol: 'Energía / Firmeza', mapudungun: 'Nahuen', pronunciacion: 'na-huen', categoria: 'Expresiones', ejemplo: 'Füta nahuen (Mucha fuerza/energía)' },
+  { id: 'n3', espanol: 'Hermano', mapudungun: 'Peñi', pronunciacion: 'pe-ñi', categoria: 'Familia', ejemplo: 'Mari mari peñi (Hola hermano)' },
+  { id: 'n4', espanol: 'Pequeño / Chico', mapudungun: 'Pichi', pronunciacion: 'pi-chi', categoria: 'General', ejemplo: 'Pichi che (Niño / Persona pequeña)' },
+
+  // --- LETRA R / T / Y ---
+  { id: 'r1', espanol: 'Lugar sagrado', mapudungun: 'Rehue', pronunciacion: 're-hue', categoria: 'Cultura', ejemplo: 'Rehue ngillatun (Ceremonia en el rehue)' },
+  { id: 'r2', espanol: 'Estar unidos', mapudungun: 'Trabun', pronunciacion: 'tra-bun', categoria: 'Cultura', ejemplo: 'Füta trabun (Gran encuentro/unión)' },
+  { id: 'r3', espanol: 'Esperanza', mapudungun: 'Suyai', pronunciacion: 'su-yay', categoria: 'Expresiones', ejemplo: 'Küme suyai (Buena esperanza)' }
+];
 ];
 
 export default function App() {
