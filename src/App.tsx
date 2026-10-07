@@ -74,7 +74,11 @@ const DEFAULT_DICTIONARY: DictionaryEntry[] = [
 
 export default function App() {
   const [dictionary, setDictionary] = useState<DictionaryEntry[]>(() => {
-    localStorage.clear(); // Limpia la memoria cache antigua del navegador
+    try {
+      localStorage.clear();
+    } catch (e) {
+      console.error(e);
+    }
     return DEFAULT_DICTIONARY;
   });
 
@@ -92,7 +96,6 @@ export default function App() {
     if (!cleanInput) return;
     setIsLoading(true);
 
-    // Búsqueda instantánea en el diccionario local
     const matchLocal = dictionary.find(
       item =>
         item.espanol.toLowerCase().trim() === cleanInput ||
@@ -103,7 +106,7 @@ export default function App() {
       setTranslationResult({
         mapudungun: matchLocal.mapudungun,
         pronunciacion: matchLocal.pronunciacion,
-        desglose: `Traducción instantánea (Diccionario Local) — ${matchLocal.ejemplo}`
+        desglose: Traducción instantánea (Diccionario Local) — ${matchLocal.ejemplo}
       });
       setIsLoading(false);
       return;
@@ -133,7 +136,7 @@ Responde ÚNICAMENTE en JSON estricto sin bloques de código:
 
     try {
       const response = await fetch(
-        `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`,
+        https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey},
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -147,7 +150,7 @@ Responde ÚNICAMENTE en JSON estricto sin bloques de código:
 
       const data = await response.json();
       const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-      const cleanJson = rawText.replace(/```json/gi, '').replace(/```/g, '').trim();
+      const cleanJson = rawText.replace(/json/gi, '').replace(//g, '').trim();
       const parsed = JSON.parse(cleanJson);
 
       setTranslationResult(parsed);
@@ -166,7 +169,7 @@ Responde ÚNICAMENTE en JSON estricto sin bloques de código:
       setTranslationResult({
         mapudungun: 'Error al traducir',
         pronunciacion: 'Revisa tu conexión o la clave de API',
-        desglose: 'El servidor de IA está ocupado. Prueba con palabras del diccionario local.'
+        desglose: 'El servidor de IA no respondió. Intenta con palabras del diccionario local.'
       });
     } finally {
       setIsLoading(false);
@@ -191,7 +194,6 @@ Responde ÚNICAMENTE en JSON estricto sin bloques de código:
     <div className="min-h-screen bg-slate-950 text-slate-100 p-4 md:p-8 font-sans">
       <div className="max-w-2xl mx-auto space-y-8">
         
-        {/* Header */}
         <header className="text-center space-y-2">
           <h1 className="text-3xl font-bold tracking-tight text-emerald-400 flex items-center justify-center gap-2">
             <BookOpen className="w-8 h-8" />
@@ -202,7 +204,6 @@ Responde ÚNICAMENTE en JSON estricto sin bloques de código:
           </p>
         </header>
 
-        {/* Sección de Traducción */}
         <section className="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-lg space-y-4">
           <div className="space-y-2">
             <label className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
@@ -225,7 +226,6 @@ Responde ÚNICAMENTE en JSON estricto sin bloques de código:
             {isLoading ? 'Traduciendo...' : 'Traducir al Mapudungun'}
           </button>
 
-          {/* Resultado */}
           {translationResult && (
             <div className="mt-6 pt-6 border-t border-slate-800 space-y-4">
               <div>
@@ -254,7 +254,6 @@ Responde ÚNICAMENTE en JSON estricto sin bloques de código:
           )}
         </section>
 
-        {/* Sección de Búsqueda Local */}
         <section className="bg-slate-900 border border-slate-800 rounded-xl p-5 shadow-lg space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-semibold text-white">Diccionario Base</h2>
