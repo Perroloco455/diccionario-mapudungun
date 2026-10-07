@@ -73,7 +73,11 @@ const DEFAULT_DICTIONARY: DictionaryEntry[] = [
 ];
 
 export default function App() {
-  const [dictionary, setDictionary] = useState<DictionaryEntry[]>(DEFAULT_DICTIONARY);
+  // Fuerza a la app a usar el nuevo diccionario actualizado y limpiar el caché antiguo
+  const [dictionary, setDictionary] = useState<DictionaryEntry[]>(() => {
+    localStorage.removeItem('mapudungun_dictionary'); // Limpia la lista antigua recortada
+    return DEFAULT_DICTIONARY;
+  });
   const [inputPhrase, setInputPhrase] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
   const [isLoading, setIsLoading] = useState(false);
