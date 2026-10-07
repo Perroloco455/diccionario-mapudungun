@@ -90,7 +90,7 @@ export default function App() {
     }
   };
 
-  // Función de traducción con IA Gemini
+ // Función de traducción con IA Gemini
   const handleTranslate = async () => {
     if (!inputPhrase.trim()) return;
     setIsLoading(true);
@@ -100,15 +100,14 @@ export default function App() {
     if (!apiKey) {
       setTranslationResult({
         mapudungun: 'Falta la clave de API',
-        pronunciacion: 'Configura tu VITE_GEMINI_API_KEY en el archivo .env',
-        desglose: 'Revisa que el archivo .env esté en la carpeta raíz del proyecto.'
+        pronunciacion: 'Configura tu VITE_GEMINI_API_KEY en Vercel / .env',
+        desglose: 'Revisa las variables de entorno.'
       });
       setIsLoading(false);
       return;
     }
 
-    try {
-      const prompt = `Eres un lingüista experto en el idioma Mapudungun (Mapuche). 
+    const prompt = `Eres un lingüista experto en el idioma Mapudungun (Mapuche). 
 Traduce la siguiente frase del español al Mapudungun de manera precisa.
 Frase a traducir: "${inputPhrase}"
 
@@ -119,37 +118,46 @@ Responde ÚNICAMENTE en formato JSON estricto sin bloques de código ni texto ad
   "desglose": "Explicación breve del significado palabra por palabra"
 }`;
 
-      const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }]
-        })
-      });
+    // Lista de modelos a intentar en orden en caso de saturación
+    const models = ['gemini-2.5-flash', 'gemini-1.5-flash-latest'];
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        console.error('API Error Response:', errorData);
-        throw new Error(errorData.error?.message || 'Error en la respuesta de la API');
+    for (const model of models) {
+      try {
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [{ parts: [{ text: prompt }] }]
+          })
+        });
+
+        if (!response.ok) {
+          const errorData = await response.json();
+          console.warn(`Error con el modelo ${model}:`, errorData);
+          continue; // Intenta con el siguiente modelo
+        }
+
+        const data = await response.json();
+        const rawText = data.candidates[0].content.parts[0].text;
+        
+        const cleanJson = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
+        const parsed = JSON.parse(cleanJson);
+
+        setTranslationResult(parsed);
+        setIsLoading(false);
+        return; // Éxito, salir de la función
+      } catch (error: any) {
+        console.error(`Fallo al consultar ${model}:`, error);
       }
-
-      const data = await response.json();
-      const rawText = data.candidates[0].content.parts[0].text;
-      
-      const cleanJson = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
-      const parsed = JSON.parse(cleanJson);
-
-      setTranslationResult(parsed);
-    } catch (error: any) {
-      console.error('Error traduciendo con la API:', error);
-      setTranslationResult({
-        mapudungun: 'Ocurrió un error al traducir.',
-        pronunciacion: 'Asegúrate de que la clave de API sea válida y activa.',
-        desglose: error?.message || 'Revisa la consola del navegador para ver los detalles.'
-      });
-    } finally {
-      setIsLoading(false);
     }
+
+    // Si fallan todos los intentos
+    setTranslationResult({
+      mapudungun: 'Servidores de Google ocupados',
+      pronunciacion: 'Intenta nuevamente en unos segundos',
+      desglose: 'Los modelos gratuitos de Gemini recibieron muchas peticiones simultáneas.'
+    });
+    setIsLoading(false);
   };
 
   const handleAddWord = (e: React.FormEvent) => {
