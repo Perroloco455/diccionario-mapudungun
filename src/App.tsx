@@ -106,7 +106,7 @@ export default function App() {
       setTranslationResult({
         mapudungun: matchLocal.mapudungun,
         pronunciacion: matchLocal.pronunciacion,
-        desglose: Traducción instantánea (Diccionario Local) — ${matchLocal.ejemplo}
+        desglose: `Traducción instantánea (Diccionario Local) — ${matchLocal.ejemplo}`
       });
       setIsLoading(false);
       return;
@@ -136,7 +136,7 @@ Responde ÚNICAMENTE en JSON estricto sin bloques de código:
 
     try {
       const response = await fetch(
-        https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey},
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -150,7 +150,7 @@ Responde ÚNICAMENTE en JSON estricto sin bloques de código:
 
       const data = await response.json();
       const rawText = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
-      const cleanJson = rawText.replace(/json/gi, '').replace(//g, '').trim();
+      const cleanJson = rawText.replace(/```json/gi, '').replace(/```/g, '').trim();
       const parsed = JSON.parse(cleanJson);
 
       setTranslationResult(parsed);
